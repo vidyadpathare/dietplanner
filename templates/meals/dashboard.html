@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-bold text-primary">📊 Dashboard</h2>
+  
+</div>
+
+<div class="row">
+  <!-- Left Column -->
+  <div class="col-md-6 mb-4">
+    <!-- Calorie Summary Card -->
+    <div class="card shadow-sm border-0 mb-3">
+      <div class="card-body text-center">
+        <h5 class="card-title text-success">🔥 Daily Progress</h5>
+        <p><strong>Goal:</strong> <span class="text-primary">{{ calorie_goal }} kcal</span></p>
+        <p><strong>Consumed:</strong> <span class="text-danger">{{ consumed|floatformat:0 }} kcal</span></p>
+        <p><strong>Remaining:</strong> <span class="text-success">{{ remaining|floatformat:0 }} kcal</span></p>
+        <div class="progress mt-3" style="height: 20px;">
+          <div class="progress-bar bg-success" role="progressbar"
+               style="width: {{ consumed|divisibleby:calorie_goal|floatformat:0 }}%"
+               aria-valuenow="{{ consumed }}" aria-valuemin="0" aria-valuemax="{{ calorie_goal }}">
+            {{ consumed|floatformat:0 }} kcal
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logs Section -->
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">📖 Your Logs (Today)</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for log in logs %}
+          <li class="list-group-item">
+            <strong>{{ log.meal_type }}</strong> • {{ log.food.name }} × {{ log.quantity }}
+            <span class="float-end badge bg-success">{{ log.total_calories|floatformat:0 }} kcal</span>
+          </li>
+        {% empty %}
+          <li class="list-group-item text-muted">No logs yet</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Right Column -->
+  <div class="col-md-6 mb-4">
+    <!-- Suggested Meal Plan -->
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-warning text-dark">
+        <h5 class="mb-0">🍽 Suggested Meal Plan</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for meal, info in plan.items %}
+          <li class="list-group-item">
+            <strong>{{ meal|title }}</strong>: {{ info.example }}  
+            <span class="float-end badge bg-secondary">{{ info.calories }} kcal</span>
+            <br>
+            <small class="text-muted">
+              P: {{ info.protein_g }}g • C: {{ info.carbs_g }}g • F: {{ info.fats_g }}g
+            </small>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

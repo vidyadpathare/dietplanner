@@ -1,0 +1,1 @@
+web: gunicorn dietplanner.wsgi:application --log-file –

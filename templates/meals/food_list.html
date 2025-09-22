@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold text-success">🥗 Foods</h2>
+    <a class="btn btn-sm btn-primary" href="{% url 'meals:add_food' %}">➕ Add Food</a>
+  </div>
+
+  <!-- Search -->
+  <form method="get" class="mb-3">
+    <div class="input-group">
+      <input type="text" class="form-control" name="q" value="{{ q }}" placeholder="🔍 Search foods...">
+      <button class="btn btn-outline-success">Search</button>
+    </div>
+  </form>
+
+  <!-- Table -->
+  <div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body p-0">
+      <table class="table table-hover mb-0">
+        <thead class="table-success">
+          <tr>
+            <th>Name</th>
+            <th>Calories</th>
+            <th>Protein (g)</th>
+            <th>Carbs (g)</th>
+            <th>Fats (g)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for f in foods %}
+            <tr>
+              <td><strong>{{ f.name }}</strong></td>
+              <td>{{ f.calories }}</td>
+              <td>{{ f.protein }}</td>
+              <td>{{ f.carbs }}</td>
+              <td>{{ f.fats }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5" class="text-center text-muted py-3">No foods found</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
